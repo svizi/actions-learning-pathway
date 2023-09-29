@@ -1,5 +1,12 @@
 name: hello-world
-on: push
+on: 
+  workflow_call:
+    inputs:
+      node-version:
+        description: "Node Version"
+        required: true
+        type: string
+        
 jobs: 
   build:
     runs-on: ubuntu-latest
@@ -10,7 +17,7 @@ jobs:
       - name: use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: ${{ inputs.node-version }}
       - run: npm install 
       - run: npm rum build
   test:
@@ -22,7 +29,7 @@ jobs:
       - name: use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: ${{ inputs.node-version }}
       - run: npm install
       - run: npm test
   deploy:
@@ -43,7 +50,7 @@ jobs:
       - name: use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: ${{ inputs.node-version }}
       - run: npm install
       - run: npm run build      
       - name: configure github pages
